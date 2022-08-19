@@ -1,158 +1,116 @@
-const card = document.querySelector('#card');
-const btnOpen = document.querySelector('#btn-open');
-const form = document.querySelector('#card-form');
-const cardNumber = document.querySelector('#card .number');
-const cardName = document.querySelector('#card .fullname');
-const brandLogo = document.querySelector('#brand-logo');
-const signature = document.querySelector('#card .signature p');
-const monthExpire = document.querySelector('#card .month');
-const yearExpire = document.querySelector('#card .year');
-const ccv = document.querySelector('#card .ccv')
+const card = document.querySelector("#card");
+const btnOpen = document.querySelector("#btn-open");
+const form = document.querySelector("#card-form");
+const cardNumber = document.querySelector("#card .number");
+const cardName = document.querySelector("#card .fullname");
+const brandLogo = document.querySelector("#brand-logo");
+const signature = document.querySelector("#card .signature p");
+const monthExpire = document.querySelector("#card .month");
+const yearExpire = document.querySelector("#card .year");
+const ccv = document.querySelector("#card .ccv");
 
-/* voltear tarjeta para el frente */
 const showFront = () => {
-    if(card.classList.contains('active')){
-        card.classList.remove('active')
-    }
+  if (card.classList.contains("active")) {
+    card.classList.remove("active");
+  }
 };
 
-/*evento de la tarjeta*/
-card.addEventListener('click', () => {
-    card.classList.toggle('active');
-})
+card.addEventListener("click", () => {
+  card.classList.toggle("active");
+});
 
-/*evento del boton*/
-btnOpen.addEventListener('click', () => {
-    btnOpen.classList.toggle('active');
-    form.classList.toggle('active');
-})
+btnOpen.addEventListener("click", () => {
+  btnOpen.classList.toggle("active");
+  form.classList.toggle("active");
+});
 
+for (let i = 1; i <= 12; i++) {
+  let option = document.createElement("option");
+  option.value = i;
+  option.innerText = i;
 
-/*ciclo fecha mes */
-for(let i = 1; i <= 12; i++){
-    let option = document.createElement('option');
-    option.value = i;
-    option.innerText = i;
+  form.selectMonth.appendChild(option);
+}
 
-    form.selectMonth.appendChild(option);
-};
+for (let i = 2022; i <= 2030; i++) {
+  let option = document.createElement("option");
+  option.value = i;
+  option.innerText = i;
 
-/*ciclo fecha año */
-for(let i = 2022; i <= 2030; i++){
-    let option = document.createElement('option');
-    option.value = i;
-    option.innerText = i;
+  form.selectYear.appendChild(option);
+}
 
-    form.selectYear.appendChild(option);
-};
+form.inputNumber.addEventListener("keyup", (e) => {
+  let valueInput = e.target.value;
 
-
-
-/* validacion input numero con expresiones regulares  */
-form.inputNumber.addEventListener('keyup', (e) => {
-
-    let valueInput = e.target.value;
-
-    
-    form.inputNumber.value = valueInput
-    /* eliminar espacios en blanco */
-    .replace(/\s/g, '')
-    /* eliminar letras */
-    .replace(/\D/g, '')
-    /* agrupar cada 4 digitos */
-    .replace(/([0-9]{4})/g, '$1-' )
-    /* quitar el ultimo espaciado */
+  form.inputNumber.value = valueInput
+    .replace(/\s/g, "")
+    .replace(/\D/g, "")
+    .replace(/([0-9]{4})/g, "$1-")
     .trim();
 
-    cardNumber.textContent = valueInput;
+  cardNumber.textContent = valueInput;
 
-    if(valueInput == ''){
-        cardNumber.textContent = 'XXXX XXXX XXXX XXXX';
+  if (valueInput == "") {
+    cardNumber.textContent = "XXXX XXXX XXXX XXXX";
 
-        brandLogo.innerHTML = '';
-    }
+    brandLogo.innerHTML = "";
+  }
 
-    /* validar tarjetas visa */
-    if(valueInput[0] == 4){
-        brandLogo.innerHTML = '';
-        const imagen = document.createElement('img');
-        imagen.src = 'img/logos/visa.png';
-        brandLogo.appendChild(imagen);
-    }
+  if (valueInput[0] == 4) {
+    brandLogo.innerHTML = "";
+    const imagen = document.createElement("img");
+    imagen.src = "img/logos/visa.png";
+    brandLogo.appendChild(imagen);
+  }
 
-    /* validar tarjetas Mastercard */
-    if(valueInput[0] == 5){
-        brandLogo.innerHTML = '';
-        const imagen = document.createElement('img');
-        imagen.src = 'img/logos/mastercard.png';
-        brandLogo.appendChild(imagen);
-    }
-
-
-    /* voltear tarjeta para el frente */
-    showFront();
+  if (valueInput[0] == 5) {
+    brandLogo.innerHTML = "";
+    const imagen = document.createElement("img");
+    imagen.src = "img/logos/mastercard.png";
+    brandLogo.appendChild(imagen);
+  }
+  showFront();
 });
 
+form.inputName.addEventListener("keyup", (e) => {
+  let valueInput = e.target.value;
 
-/* validacion input nombre con expresiones regulares  */
-form.inputName.addEventListener('keyup', (e) => {
+  form.inputName.value = valueInput.replace(/[0-9]/g, "");
 
-    let valueInput = e.target.value;
+  cardName.textContent = valueInput;
 
-    form.inputName.value = valueInput
-    /* eliminar numeros */
-    .replace(/[0-9]/g, '')
+  if (valueInput == "") {
+    cardName.textContent = "Crow Jones";
+  }
 
-    cardName.textContent = valueInput;
+  signature.textContent = valueInput;
 
-    if(valueInput == ''){
-        cardName.textContent = 'Crow Jones';
-
-    }
-
-    signature.textContent = valueInput;
-
-    /* voltear tarjeta para el frente */
-    showFront();
-
+  showFront();
 });
 
+form.selectMonth.addEventListener("change", (e) => {
+  let valueInput = e.target.value;
 
-/* validacion input mes de expiracion  */
-form.selectMonth.addEventListener('change', (e) => {
-
-    let valueInput = e.target.value;
-  
-    monthExpire.textContent = valueInput;
-
-    /* voltear tarjeta para el frente */
-    showFront();
+  monthExpire.textContent = valueInput;
+  showFront();
 });
 
-/* validacion input año de expiracion  */
-form.selectYear.addEventListener('change', (e) => {
+form.selectYear.addEventListener("change", (e) => {
+  let valueInput = e.target.value.slice(2);
 
-    let valueInput = e.target.value.slice(2);
-  
-    yearExpire.textContent = valueInput;
-
-    /* voltear tarjeta para el frente */
-    showFront();
+  yearExpire.textContent = valueInput;
+  showFront();
 });
 
-/* validacion input CVV*/
+form.inputCvv.addEventListener("keyup", () => {
+  if (!card.classList.contains("active")) {
+    card.classList.toggle("active");
+  }
 
-form.inputCvv.addEventListener('keyup', () => {
+  form.inputCvv.value = form.inputCvv.value
+    .replace(/\s/g, "")
+    .replace(/\D/g, "");
 
-    if(!card.classList.contains('active')){
-        card.classList.toggle('active');
-    }
-
-    form.inputCvv.value = form.inputCvv.value
-    /* eliminar espacios en blanco */
-    .replace(/\s/g, '')
-    /* eliminar letras */
-    .replace(/\D/g, '');
-
-    ccv.textContent = form.inputCvv.value;
+  ccv.textContent = form.inputCvv.value;
 });

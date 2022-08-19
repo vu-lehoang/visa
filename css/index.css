@@ -8,7 +8,7 @@
 }
 
 body {
-    background-image: url(/img/sagesmask\ amber\ coal\ texture.jpg);
+    background-image: url(/img/background.jpg);
     background-size: cover;
     font-family: 'Lato', sans-serif;
 }
@@ -51,7 +51,7 @@ body {
 
 .card .front {
     width: 100%;
-    background: url(../img/bg-tarjeta/bg-tarjeta-01.jpg);
+    background: url(../img/bg/bg-01.jpg);
     background-size: cover;
 }
 
@@ -94,7 +94,7 @@ body {
 }
 
 .back {
-    background-image: url(../img/bg-tarjeta/bg-tarjeta-01.jpg);
+    background-image: url(../img/bg/bg-01.jpg);
     background-size: cover;
     position: absolute;
     top: 0;
